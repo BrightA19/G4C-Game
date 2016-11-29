@@ -1,6 +1,6 @@
-var player = new Sprite(48, 150, "../img/Player.png", 37.5, 48, "img");
+var player = new Sprite(48, 150, "./img/Player.png", 37.5, 48, "img");
 var enemy = [];
-enemy.push(new Sprite(70, 200, "../img/Enemy.png", 37.5, 48, "img"));
+enemy.push(new Sprite(70, 200, "./img/Enemy.png", 37.5, 48, "img"));
 var game = {
   start: function() {
     this.div = document.getElementById("cLoc");
