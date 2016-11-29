@@ -122,6 +122,22 @@ function Sprite(x, y, color, w, h, type) {
       return false;
     }
   };
+  this.colSide = function(target) {
+    if (this.collidedWith(target)) {
+      if (this.x < target.x) {
+        return "left";
+      }
+      if (this.x > target.x) {
+        return "right";
+      }
+      if (this.y < target.y) {
+        return "top";
+      }
+      if (this.y > target.y) {
+        return "bottom";
+      }
+    }
+  };
 }
 
 function updateGame() {
@@ -130,6 +146,7 @@ function updateGame() {
   for (var i in enemy) {
     enemy[i].homeIn(player);
     if (player.collidedWith(enemy[i])) {
+      console.log(player.colSide(enemy[i]));
       player.x = 10;
       player.y = 10;
       enemy[i].x = 390;
