@@ -1,5 +1,6 @@
 var player = new Sprite(48, 150, "../img/Player.png", 37.5, 48, "img");
-
+var enemy = [];
+enemy.push(new Sprite(70, 200, "../img/Enemy.png", 37.5, 48, "img"));
 var game = {
   start: function() {
     this.div = document.getElementById("cLoc");
@@ -37,9 +38,9 @@ function Sprite(x, y, color, w, h, type) {
   this.velY = 0;
   this.x = x;
   this.y = y;
-  this.speed = 2;
+  this.speed = 3  ;
   this.angle = 0;
-  this.friction = 1.5;
+  this.friction = 0.7;
   this.update = function() {
     if (type == "img") {
       game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -67,8 +68,8 @@ function Sprite(x, y, color, w, h, type) {
     game.ctx.restore();
   };
   this.newLoc = function() {
-    this.velX /= this.friction;
-    this.velY /= this.friction;
+    this.velX *= this.friction;
+    this.velY *= this.friction;
 
     if (game.keys[37]) this.velX = -this.speed;
     if (game.keys[38]) this.velY = -this.speed;
@@ -82,6 +83,9 @@ function Sprite(x, y, color, w, h, type) {
 
 function updateGame() {
   game.clear();
+  for (var i in enemy) {
+    enemy[i].update();
+  }
   player.newLoc();
   player.update();
 }
