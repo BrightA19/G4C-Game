@@ -3,7 +3,7 @@ player.speed = 3;
 var enemy = [];
 enemy.push(new Sprite(50, 200, "./img/Enemy.png", 37.5, 48, "img"));
 for (var i in enemy) {
-enemy[i].speed = 1.5;
+  enemy[i].speed = 1.5;
 }
 var game = {
   start: function() {
@@ -85,7 +85,7 @@ function Sprite(x, y, color, w, h, type) {
   this.homeIn = function(target) {
     this.velX *= this.friction;
     this.velY *= this.friction;
-    
+
     var disX = target.x - this.x;
     var disY = target.y - this.y;
     if (Math.abs(disX) < this.speed) {
@@ -106,18 +106,36 @@ function Sprite(x, y, color, w, h, type) {
         this.velY = -this.speed;
       }
     }
-    
+
     this.x += this.velX;
     this.y += this.velY;
+  };
+  this.collidedWith = function(target) {
+    if (
+      target.x < this.x + this.width &&
+      target.y < this.y + this.height &&
+      this.x < target.x + target.width &&
+      this.y < target.y + target.height
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 }
 
 function updateGame() {
   game.clear();
+  player.controlLoc();
   for (var i in enemy) {
     enemy[i].homeIn(player);
+    if (player.collidedWith(enemy[i])) {
+      player.x = 10;
+      player.y = 10;
+      enemy[i].x = 390;
+      enemy[i].y = 10;
+    }
     enemy[i].update();
   }
-  player.controlLoc();
   player.update();
 }
