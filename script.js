@@ -1,6 +1,10 @@
-var player = new Sprite(48, 150, "./img/Player.png", 37.5, 48, "img");
+var player = new Sprite(350, 200, "./img/Player.png", 37.5, 48, "img");
+player.speed = 3;
 var enemy = [];
-enemy.push(new Sprite(70, 200, "./img/Enemy.png", 37.5, 48, "img"));
+enemy.push(new Sprite(50, 200, "./img/Enemy.png", 37.5, 48, "img"));
+for (var i in enemy) {
+enemy[i].speed = 1.5;
+}
 var game = {
   start: function() {
     this.div = document.getElementById("cLoc");
@@ -38,7 +42,6 @@ function Sprite(x, y, color, w, h, type) {
   this.velY = 0;
   this.x = x;
   this.y = y;
-  this.speed = 3  ;
   this.angle = 0;
   this.friction = 0.7;
   this.update = function() {
@@ -67,7 +70,7 @@ function Sprite(x, y, color, w, h, type) {
     game.ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
     game.ctx.restore();
   };
-  this.newLoc = function() {
+  this.controlLoc = function() {
     this.velX *= this.friction;
     this.velY *= this.friction;
 
@@ -79,13 +82,42 @@ function Sprite(x, y, color, w, h, type) {
     this.x += this.velX;
     this.y += this.velY;
   };
+  this.homeIn = function(target) {
+    this.velX *= this.friction;
+    this.velY *= this.friction;
+    
+    var disX = target.x - this.x;
+    var disY = target.y - this.y;
+    if (Math.abs(disX) < this.speed) {
+      this.velX = disX;
+    } else {
+      if (disX > 0) {
+        this.velX = this.speed;
+      } else {
+        this.velX = -this.speed;
+      }
+    }
+    if (Math.abs(disY) < this.speed) {
+      this.velY = disY;
+    } else {
+      if (disY > 0) {
+        this.velY = this.speed;
+      } else {
+        this.velY = -this.speed;
+      }
+    }
+    
+    this.x += this.velX;
+    this.y += this.velY;
+  };
 }
 
 function updateGame() {
   game.clear();
   for (var i in enemy) {
+    enemy[i].homeIn(player);
     enemy[i].update();
   }
-  player.newLoc();
+  player.controlLoc();
   player.update();
 }
