@@ -1,3 +1,4 @@
+var background = new Sprite(0, 0, "./img/Background.png", 600, 500, "img");
 var player = new Sprite(350, 200, "./img/Player.png", 37.5, 48, "img");
 player.speed = 3;
 var enemy = [];
@@ -142,6 +143,8 @@ function Sprite(x, y, color, w, h, type) {
 
 function updateGame() {
   game.clear();
+  background.update();
+
   player.controlLoc();
   for (var i in enemy) {
     enemy[i].homeIn(player);
