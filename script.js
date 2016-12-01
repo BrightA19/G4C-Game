@@ -1,4 +1,5 @@
 var background = new Sprite(0, 0, "./img/Background.png", 600, 500, "img");
+var dog = new Sprite(225, 445, "./img/TrappedDog.png", 37.5, 37.5, "img");
 var player = new Sprite(350, 200, "./img/Player.png", 37.5, 48, "img");
 player.speed = 3;
 var enemy = [];
@@ -158,4 +159,8 @@ function updateGame() {
     enemy[i].update();
   }
   player.update();
+  if (player.collidedWith(dog)) {
+    dog.img.src = "./img/Dog.png";
+  }
+  dog.update();
 }
