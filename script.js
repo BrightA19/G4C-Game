@@ -125,18 +125,21 @@ function Sprite(x, y, color, w, h, type) {
     }
   };
   this.colSide = function(target) {
-    if (this.collidedWith(target)) {
-      if (this.x < target.x) {
+    var disX = target.x + (target.width / 2) - this.x + (this.width / 2);
+    var disY = target.y + (target.height / 2) - this.y + (this.height / 2);
+    var offsetX = ((target.width / 2) + (this.width / 2)) - disX;
+    var offsetY = ((target.height / 2) + (this.height / 2)) - disY;
+    if (Math.abs(offsetX) > Math.abs(offsetY)) {
+      if (offsetX > 0) {
+        return "right";
+      } else {
         return "left";
       }
-      if (this.x > target.x) {
-        return "right";
-      }
-      if (this.y < target.y) {
-        return "top";
-      }
-      if (this.y > target.y) {
+    } else {
+      if (offsetY > 0) {
         return "bottom";
+      } else {
+        return "top";
       }
     }
   };
