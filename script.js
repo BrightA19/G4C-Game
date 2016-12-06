@@ -1,12 +1,9 @@
 var background = new Sprite(0, 0, "./img/Background.png", 600, 500, "img");
-var dog = new Sprite(225, 445, "./img/TrappedDog.png", 37.5, 37.5, "img");
+var dog = new Sprite(225, 445, "./img/Dog.png", 37.5, 37.5, "img");
 var player = new Sprite(350, 200, "./img/Player.png", 37.5, 48, "img");
 player.speed = 3;
 var enemy = [];
-enemy.push(new Sprite(50, 200, "./img/Enemy.png", 37.5, 48, "img"));
-for (var i in enemy) {
-  enemy[i].speed = 1.5;
-}
+
 var game = {
   start: function() {
     this.div = document.getElementById("cLoc");
@@ -14,7 +11,6 @@ var game = {
     this.ctx = this.cvs.getContext("2d");
     this.width = this.cvs.width;
     this.height = this.cvs.height;
-    this.update = window.setInterval(updateGame, 20);
     this.keys = [];
     this.div.addEventListener("keydown", function(e) {
       e.preventDefault();
@@ -23,13 +19,117 @@ var game = {
     this.div.addEventListener("keyup", function(e) {
       game.keys[e.keyCode] = false;
     });
-  },
-  stop: function() {
-    window.clearInterval(this.update);
+    this.level[0].start();
   },
   clear: function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
-  }
+  },
+  level: [
+    // Level 1
+    {
+      start: function() {
+        enemy = [];
+        player.x = 100;
+        player.y = 250;
+        enemy[0] = new Sprite(250, 150, "./img/Enemy.png", 37.5, 48, "img");
+        enemy[0].speed = 1.5;
+        enemy[0].stage = 1;
+        dog.img.src = "./img/TrappedDog.png";
+        dog.x = 450;
+        dog.y = 250;
+
+        background.update();
+        setTimeout(function() {
+          game.level[0].interval = setInterval(game.level[0].update, 20);
+        }, 1000);
+      },
+      stop: function() {
+        window.clearInterval(this.interval);
+      },
+      update: function() {
+        game.clear();
+        background.update();
+        player.controlLoc();
+        if (player.collidedWith(dog)) {
+          dog.img.src = "./img/Dog.png";
+          game.level[0].stop();
+          game.level[1].start();
+        }
+        if (enemy[0].stage == 1) {
+          enemy[0].homeIn({
+            x: 250,
+            y: 350
+          });
+          if (enemy[0].collidedWith({
+              x: 250,
+              y: 350,
+              width: 1,
+              height: 1
+            })) {
+            enemy[0].stage = 2;
+          }
+        }
+        if (enemy[0].stage == 2) {
+          enemy[0].homeIn({
+            x: 250,
+            y: 150
+          });
+          if (enemy[0].collidedWith({
+              x: 250,
+              y: 150,
+              width: 1,
+              height: 1
+            })) {
+            enemy[0].stage = 1;
+          }
+        }
+        if (player.collidedWith(enemy[0])) {
+          game.level[0].stop();
+        }
+        dog.update();
+        enemy[0].update();
+        player.update();
+      }
+    },
+    // Level 2
+    {
+      start: function() {
+        enemy = [];
+        player.x = 100;
+        player.y = 100;
+        enemy[0] = new Sprite(250, 250, "./img/Enemy.png", 37.5, 48, "img");
+        enemy[0].speed = 1.5;
+        dog.img.src = "./img/TrappedDog.png";
+        dog.x = 450;
+        dog.y = 40;
+
+        background.update();
+        setTimeout(function() {
+          game.level[1].interval = setInterval(game.level[1].update, 20);
+        }, 1000);
+      },
+      stop: function() {
+        window.clearInterval(this.interval);
+      },
+      update: function() {
+        game.clear();
+        background.update();
+        player.controlLoc();
+        enemy[0].homeIn(player);
+        if (player.collidedWith(dog)) {
+          dog.img.src = "./img/Dog.png";
+          game.level[1].stop();
+        }
+        if (player.collidedWith(enemy[0])) {
+          game.level[1].stop();
+
+        }
+        dog.update();
+        enemy[0].update();
+        player.update();
+      }
+    }
+  ]
 };
 
 function Sprite(x, y, color, w, h, type) {
@@ -143,27 +243,4 @@ function Sprite(x, y, color, w, h, type) {
       }
     }
   };
-}
-
-function updateGame() {
-  game.clear();
-  background.update();
-
-  player.controlLoc();
-  for (var i in enemy) {
-    enemy[i].homeIn(player);
-    if (player.collidedWith(enemy[i])) {
-      console.log(player.colSide(enemy[i]));
-      player.x = 10;
-      player.y = 10;
-      enemy[i].x = 390;
-      enemy[i].y = 10;
-    }
-    enemy[i].update();
-  }
-  player.update();
-  if (player.collidedWith(dog)) {
-    dog.img.src = "./img/Dog.png";
-  }
-  dog.update();
 }
