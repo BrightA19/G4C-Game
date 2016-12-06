@@ -39,6 +39,10 @@ var game = {
         dog.y = 250;
 
         background.update();
+        game.ctx.fillStyle = "#AAA";
+        game.ctx.textAlign = "center";
+        game.ctx.font = "60px 'Comic Sans MS'";
+        game.ctx.fillText("Level 1", 250, 250);
         setTimeout(function() {
           game.level[0].interval = setInterval(game.level[0].update, 20);
         }, 1000);
@@ -85,6 +89,10 @@ var game = {
         }
         if (player.collidedWith(enemy[0])) {
           game.level[0].stop();
+          game.ctx.fillStyle = "#F44";
+          game.ctx.textAlign = "center";
+          game.ctx.font = "60px 'Comic Sans MS'";
+          game.ctx.fillText("Game Over!", 250, 250);
         }
         dog.update();
         enemy[0].update();
@@ -104,6 +112,10 @@ var game = {
         dog.y = 40;
 
         background.update();
+        game.ctx.fillStyle = "#AAA";
+        game.ctx.textAlign = "center";
+        game.ctx.font = "60px 'Comic Sans MS'";
+        game.ctx.fillText("Level 2", 250, 250);
         setTimeout(function() {
           game.level[1].interval = setInterval(game.level[1].update, 20);
         }, 1000);
@@ -119,9 +131,17 @@ var game = {
         if (player.collidedWith(dog)) {
           dog.img.src = "./img/Dog.png";
           game.level[1].stop();
+          game.ctx.fillStyle = "#FF0";
+          game.ctx.textAlign = "center";
+          game.ctx.font = "60px 'Comic Sans MS'";
+          game.ctx.fillText("You Win!", 250, 250);
         }
         if (player.collidedWith(enemy[0])) {
           game.level[1].stop();
+          game.ctx.fillStyle = "#F44";
+          game.ctx.textAlign = "center";
+          game.ctx.font = "60px 'Comic Sans MS'";
+          game.ctx.fillText("Game Over!", 250, 250);
 
         }
         dog.update();
