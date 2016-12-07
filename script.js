@@ -24,6 +24,14 @@ var game = {
   clear: function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
   },
+  gameOver: function() {
+    var txt = new Sprite(250, 250, "#F44", "Game Over!", "60px 'Comic Sans MS'", "txt");
+    txt.update();
+  },
+  youWin: function() {
+    var txt = new Sprite(250, 250, "#FC0", "You Win!", "60px 'Comic Sans MS'", "txt");
+    txt.update();
+  },
   level: [
     // Level 1
     {
@@ -39,10 +47,8 @@ var game = {
         dog.y = 250;
 
         background.update();
-        game.ctx.fillStyle = "#AAA";
-        game.ctx.textAlign = "center";
-        game.ctx.font = "60px 'Comic Sans MS'";
-        game.ctx.fillText("Level 1", 250, 250);
+        var lvl = new Sprite(250, 250, "#AAA", "Level 1", "60px 'Comic Sans MS'", "txt");
+        lvl.update();
         setTimeout(function() {
           game.level[0].interval = setInterval(game.level[0].update, 20);
         }, 1000);
@@ -89,10 +95,7 @@ var game = {
         }
         if (player.collidedWith(enemy[0])) {
           game.level[0].stop();
-          game.ctx.fillStyle = "#F44";
-          game.ctx.textAlign = "center";
-          game.ctx.font = "60px 'Comic Sans MS'";
-          game.ctx.fillText("Game Over!", 250, 250);
+          game.gameOver();
         }
         dog.update();
         enemy[0].update();
@@ -112,10 +115,8 @@ var game = {
         dog.y = 40;
 
         background.update();
-        game.ctx.fillStyle = "#AAA";
-        game.ctx.textAlign = "center";
-        game.ctx.font = "60px 'Comic Sans MS'";
-        game.ctx.fillText("Level 2", 250, 250);
+        var lvl = new Sprite(250, 250, "#AAA", "Level 2", "60px 'Comic Sans MS'", "txt");
+        lvl.update();
         setTimeout(function() {
           game.level[1].interval = setInterval(game.level[1].update, 20);
         }, 1000);
@@ -131,17 +132,11 @@ var game = {
         if (player.collidedWith(dog)) {
           dog.img.src = "./img/Dog.png";
           game.level[1].stop();
-          game.ctx.fillStyle = "#FF0";
-          game.ctx.textAlign = "center";
-          game.ctx.font = "60px 'Comic Sans MS'";
-          game.ctx.fillText("You Win!", 250, 250);
+          game.youWin();
         }
         if (player.collidedWith(enemy[0])) {
           game.level[1].stop();
-          game.ctx.fillStyle = "#F44";
-          game.ctx.textAlign = "center";
-          game.ctx.font = "60px 'Comic Sans MS'";
-          game.ctx.fillText("Game Over!", 250, 250);
+          game.gameOver();
 
         }
         dog.update();
