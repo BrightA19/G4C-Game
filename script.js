@@ -158,6 +158,11 @@ function Sprite(x, y, color, w, h, type) {
     this.img = new Image();
     this.img.src = color;
   }
+  if (type == "txt") {
+    this.color = color;
+    this.txt = w;
+    this.font = h;
+  }
   this.width = w;
   this.height = h;
   this.velX = 0;
@@ -169,6 +174,11 @@ function Sprite(x, y, color, w, h, type) {
   this.update = function() {
     if (type == "img") {
       game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    } else if (type == "txt") {
+      game.ctx.fillStyle = color;
+      game.ctx.font = this.font;
+      game.ctx.textAlign = "center";
+      game.ctx.fillText(this.txt, this.x, this.y);
     } else {
       game.ctx.fillStyle = color;
       game.ctx.fillRect(this.x, this.y, this.width, this.height);
