@@ -19,16 +19,39 @@ var game = {
     this.div.addEventListener("keyup", function(e) {
       game.keys[e.keyCode] = false;
     });
-    this.level[0].start();
+    
+    this.currentLevel = 0;
+    this.changeLevel(0);
   },
   clear: function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
   },
+  changeLevel: function(choice) {
+    this.level[this.currentLevel].stop();
+    switch (choice) {
+      case "next":
+        this.currentLevel++;
+        break;
+      case "previous":
+        this.currentLevel--;
+        break;
+      default:
+        this.currentLevel = choice;
+        break;
+    }
+    this.level[this.currentLevel].start();
+  },
+  announceLvl: function() {
+    var txt = new Sprite(250, 250, "#AAA", "Level " + this.currentLevel, "60px 'Comic Sans MS'", "txt");
+    txt.update();
+  },
   gameOver: function() {
+    this.level[this.currentLevel].stop();
     var txt = new Sprite(250, 250, "#F44", "Game Over!", "60px 'Comic Sans MS'", "txt");
     txt.update();
   },
   youWin: function() {
+    this.level[this.currentLevel].stop();
     var txt = new Sprite(250, 250, "#FC0", "You Win!", "60px 'Comic Sans MS'", "txt");
     txt.update();
   },
@@ -47,8 +70,7 @@ var game = {
         dog.y = 250;
 
         background.update();
-        var lvl = new Sprite(250, 250, "#AAA", "Level 1", "60px 'Comic Sans MS'", "txt");
-        lvl.update();
+        game.announceLvl();
         setTimeout(function() {
           game.level[0].interval = setInterval(game.level[0].update, 20);
         }, 1000);
@@ -62,8 +84,7 @@ var game = {
         player.controlLoc();
         if (player.collidedWith(dog)) {
           dog.img.src = "./img/Dog.png";
-          game.level[0].stop();
-          game.level[1].start();
+          game.changeLevel("next");
         }
         if (enemy[0].stage == 1) {
           enemy[0].homeIn({
@@ -94,7 +115,6 @@ var game = {
           }
         }
         if (player.collidedWith(enemy[0])) {
-          game.level[0].stop();
           game.gameOver();
         }
         dog.update();
@@ -115,8 +135,7 @@ var game = {
         dog.y = 40;
 
         background.update();
-        var lvl = new Sprite(250, 250, "#AAA", "Level 2", "60px 'Comic Sans MS'", "txt");
-        lvl.update();
+        game.announceLvl();
         setTimeout(function() {
           game.level[1].interval = setInterval(game.level[1].update, 20);
         }, 1000);
@@ -135,9 +154,7 @@ var game = {
           game.youWin();
         }
         if (player.collidedWith(enemy[0])) {
-          game.level[1].stop();
           game.gameOver();
-
         }
         dog.update();
         enemy[0].update();
