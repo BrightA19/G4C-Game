@@ -5,19 +5,37 @@ player.speed = 3;
 var enemy = [];
 
 var game = {
+  level: [],
   start: function() {
     this.div = document.getElementById("cLoc");
     this.cvs = document.getElementById("c");
     this.ctx = this.cvs.getContext("2d");
     this.width = this.cvs.width;
     this.height = this.cvs.height;
+    
     this.keys = [];
+    this.clickXY = [];
+    this.hoverXY = [];
     this.div.addEventListener("keydown", function(e) {
       e.preventDefault();
       game.keys[e.keyCode] = true;
     });
     this.div.addEventListener("keyup", function(e) {
       game.keys[e.keyCode] = false;
+    });
+    this.div.addEventListener("mousedown", function(e) {
+      game.clickXY[0] = e.clientX - game.cvs.offsetLeft;
+      game.clickXY[1] = e.clientY - game.cvs.offsetTop;
+    });
+    this.div.addEventListener("mouseup", function(e) {
+      game.clickXY = [];
+    });
+    this.div.addEventListener("mousemove", function(e) {
+      game.hoverXY[0] = e.clientX - game.cvs.offsetLeft;
+      game.hoverXY[1] = e.clientY - game.cvs.offsetTop;
+    });
+    this.div.addEventListener("mouseout", function(e) {
+      game.hoverXY = [];
     });
     
     this.currentLevel = 0;
@@ -54,9 +72,7 @@ var game = {
     this.level[this.currentLevel].stop();
     var txt = new Sprite(250, 250, "#FC0", "You Win!", "60px 'Comic Sans MS'", "txt");
     txt.update();
-  },
-  level: [],
-  currentLevel: 0
+  }
 };
 
 function Sprite(x, y, color, w, h, type) {
