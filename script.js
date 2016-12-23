@@ -149,6 +149,40 @@ var game = {
     var txt = new Sprite(250, 250, "#FC0", "You Win!", "60px 'Comic Sans MS'", "txt");
     txt.update();
     
+  },
+  
+  /*
+  With format: "click( [x,y] , [x2,y2] )",
+    this checks if the mouse is down between these two coordinates
+  */
+  click: function(coord1, coord2) {
+    if (
+      game.clickXY[0] >= coord1[0] &&
+      game.clickXY[0] <= coord2[0] &&
+      game.clickXY[1] >= coord1[1] &&
+      game.clickXY[1] <= coord2[1]
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  
+  /*
+  With format: "hover( [x,y] , [x2,y2] )",
+    this checks if the mouse is between these two coordinates
+  */
+  hover: function (coord1, coord2) {
+    if (
+      game.hoverXY[0] >= coord1[0] &&
+      game.hoverXY[0] <= coord2[0] &&
+      game.hoverXY[1] >= coord1[1] &&
+      game.hoverXY[1] <= coord2[1]
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
   
 };
