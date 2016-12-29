@@ -2,7 +2,7 @@
 These are Sprites I created. Check the Sprite constructor.
 These will be used in the game, and controlled mainly in the start and update methods of game.level[#].
 */
-var background = new Sprite(0, 0, "./img/Background.png", 600, 500, "img");
+var background = new Sprite(0, 0, "./img/SplashScreen.png", 600, 500, "img");
 var dog = new Sprite(225, 445, "./img/Dog.png", 37.5, 37.5, "img");
 var player = new Sprite(350, 200, "./img/Player.png", 37.5, 48, "img");
 
@@ -76,6 +76,7 @@ var game = {
     // Set the current level. The first level is 0
     this.currentLevel = 0;
     
+    
     /*
     This changes the currentLevel to 0.
     Since it is already 0, it just executes game.level[game.currentLevel].start
@@ -109,6 +110,7 @@ var game = {
         break;
       default:
         this.currentLevel = choice;
+        console.log(this.currentLevel);
         break;
     }
     

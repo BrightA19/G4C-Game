@@ -1,6 +1,33 @@
-// Level 0
+// Level
 game.level[0] = {
   start: function() {
+    background.img.src = "./img/SplashScreen.png";
+    setTimeout(function() {
+      game.level[0].interval = setInterval(game.level[0].update, 20);
+    }, 1000);
+  },
+  update: function () {
+    background.update();
+    if (game.hover([345, 393], [485, 480])) {
+      game.cvs.style.cursor = "pointer";
+    } else {
+      game.cvs.style.cursor = "default"
+    }
+    if (game.click([345, 393], [485, 480])) {
+      game.cvs.style.cursor = "default"
+      game.changeLevel("next");
+    }
+  },
+  stop: function() {
+    window.clearInterval(this.interval);
+  }
+};
+
+
+// Level 0
+game.level[1] = {
+  start: function() {
+    background.img.src = "./img/Background.png";
     enemy = [];
     player.x = 100;
     player.y = 250;
@@ -14,7 +41,7 @@ game.level[0] = {
     background.update();
     game.announceLvl();
     setTimeout(function() {
-      game.level[0].interval = setInterval(game.level[0].update, 20);
+      game.level[1].interval = setInterval(game.level[1].update, 20);
     }, 1000);
   },
   stop: function() {
@@ -64,8 +91,9 @@ game.level[0] = {
     player.update();
   }
 };
-  
-game.level[1] = {
+
+// Level 1
+game.level[2] = {
   start: function() {
     enemy = [];
     player.x = 100;
@@ -75,10 +103,11 @@ game.level[1] = {
     dog.img.src = "./img/TrappedDog.png";
     dog.x = 450;
     dog.y = 40;
+    
     background.update();
     game.announceLvl();
-      setTimeout(function() {
-      game.level[1].interval = setInterval(game.level[1].update, 20);
+    setTimeout(function() {
+      game.level[2].interval = setInterval(game.level[2].update, 20);
     }, 1000);
   },
   stop: function() {
@@ -91,7 +120,7 @@ game.level[1] = {
     enemy[0].homeIn(player);
     if (player.collidedWith(dog)) {
       dog.img.src = "./img/Dog.png";
-      game.level[1].stop();
+      game.level[2].stop();
       game.youWin();
     }
     if (player.collidedWith(enemy[0])) {
