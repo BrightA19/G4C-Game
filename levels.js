@@ -1,4 +1,4 @@
-// Level
+// Splash Screen
 game.level[0] = {
   start: function() {
     background.img.src = "./img/SplashScreen.png";
@@ -24,7 +24,7 @@ game.level[0] = {
 };
 
 
-// Level 0
+// Level 1
 game.level[1] = {
   start: function() {
     background.img.src = "./img/Background.png";
@@ -92,7 +92,7 @@ game.level[1] = {
   }
 };
 
-// Level 1
+// Level 2
 game.level[2] = {
   start: function() {
     enemy = [];

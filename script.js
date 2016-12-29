@@ -110,7 +110,6 @@ var game = {
         break;
       default:
         this.currentLevel = choice;
-        console.log(this.currentLevel);
         break;
     }
     
