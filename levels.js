@@ -6,20 +6,36 @@ game.level[0] = {
       game.level[0].interval = setInterval(game.level[0].update, 20);
     }, 1000);
   },
-  update: function () {
-    background.update();
-    if (game.hover([345, 393], [485, 480])) {
-      game.cvs.style.cursor = "pointer";
-    } else {
-      game.cvs.style.cursor = "default"
-    }
-    if (game.click([345, 393], [485, 480])) {
-      game.cvs.style.cursor = "default"
-      game.changeLevel("next");
-    }
-  },
   stop: function() {
     window.clearInterval(this.interval);
+  },
+  stage: 0,
+  update: function () {
+    background.update();
+    if (game.level[0].stage === 0) {
+      background = new Sprite(0, 0, "./img/SplashScreen.png", 600, 500, "img");
+      if (game.hover([345, 393], [485, 480])) {
+        game.cvs.style.cursor = "pointer";
+      } else {
+        game.cvs.style.cursor = "default";
+      }
+      if (game.click([345, 393], [485, 480])) {
+        game.cvs.style.cursor = "default";
+        game.level[0].stage = 1;
+      }
+    }
+    if (game.level[0].stage === 1) {
+      background = new Sprite(0, 0, "./img/SplashScreen2.png", 500, 500, "img");
+      if (game.hover([331, 328], [458, 405])) {
+        game.cvs.style.cursor = "pointer";
+      } else {
+        game.cvs.style.cursor = "default";
+      }
+      if (game.click([331, 328], [458, 405])) {
+        game.cvs.style.cursor = "default";
+        game.changeLevel("next");
+      }
+    }
   }
 };
 
